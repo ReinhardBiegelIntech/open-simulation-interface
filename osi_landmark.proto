@@ -311,19 +311,19 @@ message TrafficSign
                 
         // Priority must be given to vehicles from the opposite direction (StVO 208).
         //
-        TPYE_PRIORITY_TO_OPPOSITE_DIRECTION = 63;
+        TYPE_PRIORITY_TO_OPPOSITE_DIRECTION = 63;
         
         // Traffic has priority over vehicles from the opposite direction (StVO 308).
         //
-        TPYE_PRIORITY_OVER_OPPOSITE_DIRECTION = 64;
+        TYPE_PRIORITY_OVER_OPPOSITE_DIRECTION = 64;
         
         // Priority must be given to vehicles from the opposite direction (StVO 208). Upside down.
         // 
-        TPYE_PRIORITY_TO_OPPOSITE_DIRECTION_UPSIDE_DOWN = 65;
+        TYPE_PRIORITY_TO_OPPOSITE_DIRECTION_UPSIDE_DOWN = 65;
         
         // Traffic has priority over vehicles from the opposite direction (StVO 308). Upside down.
         //
-        TPYE_PRIORITY_OVER_OPPOSITE_DIRECTION_UPSIDE_DOWN = 66;
+        TYPE_PRIORITY_OVER_OPPOSITE_DIRECTION_UPSIDE_DOWN = 66;
         
         // Minimum safety distance for trucks (StVO 273).
         //
@@ -460,7 +460,7 @@ message SupplementarySign
         
         // Time range for validity of traffic sign (starting from value_1 and ending with value_2, both defining
         // time of day in minutes from midnight).
-        TPYE_TIME_RANGE = 5;
+        TYPE_TIME_RANGE = 5;
         
         // Restriction of the validity of the traffic sign depending on the vehicle's weight (more than value_1 in kilogram).
         //
@@ -887,22 +887,22 @@ message RoadMarking
         // An arrow painted on the road surface indicating a turning point right.
         // 
         TYPE_TURNPOINT_RIGHT_ARROW = 14;
-
-        // Paint on the road surface indicating a zebra crossing.
-        // 
-        TYPE_ZEBRA = 15;
-
-        // Paint on the road surface indicating a generic symbol.
-        // 
-        TYPE_GENERIC_SYMBOL = 16;
         
         // A right arrow painted on the road surface announcing a lane limitation or the end of a lane (StVO 297.1). 
         //
-        TYPE_ANNOUNCE_RIGHT_ARROW = 17;
+        TYPE_ANNOUNCE_RIGHT_ARROW = 15;
         
         // A left arrow painted on the road surface announcing a lane limitation or the end of a lane (StVO 297.1). 
         //
-        TYPE_ANNOUNCE_LEFT_ARROW = 18;
+        TYPE_ANNOUNCE_LEFT_ARROW = 16;
+
+        // Paint on the road surface indicating a zebra crossing.
+        // 
+        TYPE_ZEBRA = 17;
+
+        // Paint on the road surface indicating a generic symbol.
+        // 
+        TYPE_GENERIC_SYMBOL = 18;
 
         // Paint on the road surface indicating a generic line.
         // 
