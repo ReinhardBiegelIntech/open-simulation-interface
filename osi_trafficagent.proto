@@ -1,0 +1,102 @@
+syntax = "proto2";
+
+option optimize_for = SPEED;
+
+import "osi_version.proto";
+import "osi_common.proto";
+import "osi_environment.proto";
+import "osi_trafficsign.proto";
+import "osi_trafficlight.proto";
+import "osi_roadmarking.proto";
+import "osi_lane.proto";
+import "osi_object.proto";
+import "osi_occupant.proto";
+
+package osi3;
+
+//
+// \brief Input for intelligent traffic agents.
+//
+// Based on the ground truth, this message provides information required by
+// intelligent traffic agents. 
+//
+// Differences to ground truth:
+// * 
+// *
+//
+message TrafficAgent
+{
+    // The interface version used by the sender (i.e. the simulation
+    // environment).
+    //
+    optional InterfaceVersion version = 1;
+
+    // The data timestamp of the simulation environment. The zero time point is
+    // arbitrary but must be identical for all messages.
+    // Recommendation: Zero time point for start point of the simulation.
+    //
+    // \note Zero time point does not need to coincide with the UNIX epoch.
+    //
+    // \note For ground truth data this timestamp coincides both with the
+    // notional simulation time the data applies to and the time it was sent
+    // (there is no inherent latency for ground truth data, as opposed to
+    // sensor data).
+    //
+    optional Timestamp timestamp = 2;
+
+    // The ID of the host vehicle object referencing to \c MovingObject .
+    //
+    // \note This ID has to be filled and is not optional!
+    //
+    optional Identifier host_vehicle_id = 3;
+
+    // The list of stationary objects (excluding traffic signs and traffic
+    // lights). DBE: --> for traffic agents this is left out in a first step
+    //
+    //repeated StationaryObject stationary_object = 4;
+
+    // The list of all other moving objects including all (host) vehicles.
+    //
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    // DBE: Position in s,t is not included! --> Maybe re-define MovingObject
+    //      message where an s,t position is included
+    repeated MovingObject moving_object = 5;
+
+    // The list of traffic signs.
+    //
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    repeated TrafficSign traffic_sign = 6;
+
+    // The list of traffic lights.
+    //
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    repeated TrafficLight traffic_light = 7;
+
+    // DBE: lane should be provided in any case. --> check if boundary and 
+    //      marking is necessary as well.
+
+    // The list of road surface markings (lane markings are excluded and
+    // defined as \c LaneBoundary).
+    //
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    repeated RoadMarking road_marking = 8;
+
+    // The list of lane boundaries.
+    //
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    repeated LaneBoundary lane_boundary = 9;
+
+    // The list of lanes forming a road network.
+    //
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    repeated Lane lane = 10;
+
+  
+
+}
