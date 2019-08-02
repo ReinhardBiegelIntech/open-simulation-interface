@@ -423,9 +423,24 @@ message MovingObjectAgent
 
         // Lateral offset in t-Direction 
         // t=0 is at the host vehicle's origin
-        // Alternative: t=0 at host vehicles's lane center --> Discuss!
+        // Alternative 1: t=0 at host vehicles's lane center --> Discuss!
+        // Alternative 2: t=0 at object's lane center (formder "d") -->Discuss!
         //
         optional double t = 2;
+
+        // Relative Lane id 
+        //
+        optional int32 laneId = 3;
+
+        // relative speed value in s-direction
+        // Alternative 1: absolute speed value --> Discuss!
+        //
+        optional double v = 4;
+
+        // relative acceleleration in s-direction
+        // Alternative 1: absolute acc. --> Discuss!
+        //
+        optional double a = 5;
 
     }
 }

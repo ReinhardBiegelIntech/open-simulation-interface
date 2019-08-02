@@ -21,8 +21,10 @@ package osi3;
 // intelligent traffic agents. 
 //
 // Differences to ground truth:
-// * 
-// *
+// * MovingObject is substituted by MovingObjectAgent (cf. "osi_objectAgent.proto")
+// ** includes a road coordinate field
+// ** it is possible to remove unncessary fields --> not done yet
+// * stationary objects neglected, for now
 //
 message TrafficAgent
 {
