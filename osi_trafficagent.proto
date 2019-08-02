@@ -9,7 +9,7 @@ import "osi_trafficsign.proto";
 import "osi_trafficlight.proto";
 import "osi_roadmarking.proto";
 import "osi_lane.proto";
-import "osi_object.proto";
+import "osi_objectAgent.proto";
 import "osi_occupant.proto";
 
 package osi3;
@@ -61,7 +61,7 @@ message TrafficAgent
     //
     // DBE: Position in s,t is not included! --> Maybe re-define MovingObject
     //      message where an s,t position is included
-    repeated MovingObject moving_object = 5;
+    repeated MovingObjectAgent moving_object = 5;
 
     // The list of traffic signs.
     //
