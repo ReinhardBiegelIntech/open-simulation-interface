@@ -36,10 +36,10 @@ message TrajectoryCommand
     //
     // Dbecker: How would that work? TrafficCommand is only an input
     //enum ExecutionStatus {
-    //  IDLE = 0;
-    //  RUNNING = 1;
-    //  SUCCESS = 2;
-    //  FAILURE = 3;
+    //  IDLE = 1;
+    //  RUNNING = 2;
+    //  SUCCESS = 3;
+    //  FAILURE = 4;
     //}
     //optional ExecutionStatus execution_status = 2 [default = IDLE];
 
@@ -81,9 +81,9 @@ message TrajectoryCommand
     // \note Extend list?
     //
     enum CommandType {
-      TRAJECTORYDEMAND = 0;
-      TRAJECTORYFIX = 1;
-      TRAJECTORYFIXWITHTIME = 2;
+      TRAJECTORYDEMAND = 1;
+      TRAJECTORYFIX = 2;
+      TRAJECTORYFIXWITHTIME = 3;
     }
     optional CommandType command_type = 5 [default = TRAJECTORYFIXWITHTIME];
 
@@ -112,7 +112,7 @@ message TrajectoryPoint
     //
     // \note Zero time point does not need to coincide with the UNIX epoch.
     //
-    optional Timestamp time_stamp = 0;
+    optional Timestamp time_stamp = 1;
 
 
     // A list of BaseMovings (?)
@@ -123,5 +123,5 @@ message TrajectoryPoint
     //          heading can be optional, will be calculated inside the model if desired
     //          e.g. heading could be always in direction of the current tangent to the trajectory
     //          e.g. pedestrian could be provided with additional heading
-    optional BaseMoving base_moving = 1;
+    optional BaseMoving base_moving = 2;
 }

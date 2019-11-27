@@ -25,10 +25,10 @@ message TrafficCommand
     // Dbecker: How would that work? TrafficCommand is only an input
     //
     //enum ExecutionStatus {
-    //  IDLE = 0;
-    //  RUNNING = 1;
-    //  SUCCESS = 2;
-    //  FAILURE = 3;
+    //  IDLE = 1;
+    //  RUNNING = 2;
+    //  SUCCESS = 3;
+    //  FAILURE = 4;
     //}
     //optional ExecutionStatus execution_status = 2 [default = IDLE];
 
@@ -79,11 +79,11 @@ message TrafficCommand
     //
     // Dbecker: placeholder for later...
     enum CommandType {
-      TARGET_COMMAND = 0;
-      MANEUVER_COMMAND = 1;
-      TRAJECTORY_COMMAND = 2;
-      PEDALERY_COMMAND = 3;
-      CONTROLLER_COMMAND = 4;
+      TARGET_COMMAND = 1;
+      MANEUVER_COMMAND = 2;
+      TRAJECTORY_COMMAND = 3;
+      PEDALERY_COMMAND = 4;
+      CONTROLLER_COMMAND = 5;
     }
     optional CommandType command_type = 5 [default = TRAJECTORY_COMMAND];
 
