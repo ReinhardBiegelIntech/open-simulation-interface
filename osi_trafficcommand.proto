@@ -87,6 +87,6 @@ message TrafficCommand
     }
     optional CommandType command_type = 5 [default = TRAJECTORY_COMMAND];
 
-    repeated TrajectoryCommand trajectory_command = 6;
+    optional TrajectoryCommand trajectory_command = 6;
 
 }
