@@ -3,89 +3,177 @@ syntax = "proto2";
 option optimize_for = SPEED;
 
 import "osi_version.proto";
-import "osi_trajectorycommand.proto";
+import "osi_common.proto";
+import "osi_object.proto";
 
 package osi3;
 
 //
-// \brief The TrafficCommand
+// \brief The traffic command message is provided by the scenario
+// engine to traffic participant models to provide control commands
+// to them based on the scenario.
 //
+// \note This interface is currently just a placeholder, and will be
+// changed in experimental ways to support basic scenario execution.
+// In the future this interface shall be aligned with the level of
+// atomic actions as described in OpenSCENARIO 1.0 or later.
 //
 message TrafficCommand
 {
-    // The interface version used by the sender (i.e. the simulation
-    // environment).
+    // The interface version used by the sender (scenario engine).
     //
     optional InterfaceVersion version = 1;
 
-    // The status of the command.
+    // The data timestamp of the simulation environment. Zero time is arbitrary
+    // but must be identical for all messages. Zero time does not need to
+    // coincide with the UNIX epoch. Recommended is the starting time point of
+    // the simulation.
     //
-    // \note The agent should set the status, as he knows the status?
-    // Dbecker: How would that work? TrafficCommand is only an input
+    // \note For traffic command data the timestamp coincides both with
+    // the notional simulation time the data applies to and the time it was sent
+    // (there is no inherent latency for traffic command data, as opposed
+    // to sensor data).
     //
-    //enum ExecutionStatus {
-    //  IDLE = 1;
-    //  RUNNING = 2;
-    //  SUCCESS = 3;
-    //  FAILURE = 4;
-    //}
-    //optional ExecutionStatus execution_status = 2 [default = IDLE];
+    optional Timestamp timestamp = 2;
 
-    // "event" flag that a new command is present
+    // The ID of this traffic participant.
     //
-    // \note this flag is checked by the agent in every time stamp.
-    //       if true, the trajectory will be extracted from the command
-    //       if false, the TrafficCommand message will be ignored.
-    optional bool receive_new_command = 2;
+    optional Identifier traffic_participant_id = 3;
 
-    // The start_time could be used to set a starttime of exectution
+    // Commanded Traffic Action(s) if any
     //
-    // \note Should be definitely optional?
+    // \note OSI uses singular instead of plural for repeated field names.
     //
-    // \note What should be the desirec behaviour if starttime is already exceeded?
-    // One idea: The agent should wait until the starttime to execute.
-    // If time is already ahead, it can start directly
+    // \note It must be defined, if these actions must be executed subsequently 
+    // or can be executed in parallel.
     //
-    // \note Zero time point does not need to coincide with the UNIX epoch.
-    //
-
-    // Dbecker: Time is included in trajectory for now
-    //optional Timestamp start_time = 3;
-
-    // The end_time could be used to set a endtime
-    //
-    // \note Should be definitely optional?
-    //
-    // \note This one is tricky and I am not sure about this. It could eiter determine
-    // the timeframe in which a traffic command needs to be finished before, or it could determine
-    // the endtime, which indicates how long a command should go on.
-    // THis would definitly require a good documentation ...
-    //
-    // \note Zero time point does not need to coincide with the UNIX epoch.
-    //
-
-    // Dbecker: Time is included in trajectory for now
-    //optional Timestamp end_time = 4;
-
-    // The type of command which should be used? Could avoid checking all possible
-    // commands?
-    //
-    // \note This should be set?
-    //
-    // \note If NULL, none command is send?
-    //
-    // \note Extend list?
-    //
-    // Dbecker: placeholder for later...
-    enum CommandType {
-      TARGET_COMMAND = 1;
-      MANEUVER_COMMAND = 2;
-      TRAJECTORY_COMMAND = 3;
-      PEDALERY_COMMAND = 4;
-      CONTROLLER_COMMAND = 5;
-    }
-    optional CommandType command_type = 5 [default = TRAJECTORY_COMMAND];
-
-    optional TrajectoryCommand trajectory_command = 6;
+    repeated TrafficAction action = 4;
 
 }
+
+//
+// \brief Atomic Traffic Actions to be performed
+// 
+// \note  From our understanding (atm), this message is to allow "inheritance" !?:
+// --> A TrajectoryAction is a TrafficAction
+// --> A PathAction is a TrafficAction
+// --> TbdAction is a TrafficAction
+// Then it is necessary to document that a TrafficAction can only contain ONE 
+// command! (TrafficAction is either a TbdAction OR a PathAction)
+message TrafficAction
+{
+    // A TrafficAction
+    //
+    optional TrajectoryAction trajectory_action = 1;
+
+    // A PathAction
+    //
+    optional PathAction path_action = 2;
+}
+
+
+
+//
+// \brief The StatePoint definition
+//
+// \note The StatePoint definition does not define mandatory fields.
+// The context defines how and what fields are used. 
+// For example: Path only used xyz of the StatePoint, trajectory also timestamp...
+//
+// A StatePoint contains a BaseMoving (full state with xyz/rph and the derivatives
+// linear /angular velocity and acceleration).
+// Furthermore it contains a time stamp.
+//
+message StatePoint
+{
+    // The timestamp of a StatePoint
+    //
+    // \note Zero time point does not need to coincide with the UNIX epoch.
+    //
+    optional Timestamp time_stamp = 0;
+
+
+    // BaseMoving to describe a state
+    //
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    optional BaseMoving state = 1;
+}
+
+//
+// \brief The ActionHeader
+//
+//
+message ActionHeader
+{
+  // The unique id of the command
+  //
+  // \note This should be mandatory
+  //
+  optional Identifier action_id = 0;
+
+  // The start_time could be used to set a starttime of execution
+  //
+  // \note Should be definitely optional?
+  //
+  // \note Zero time point does not need to coincide with the UNIX epoch.
+  //
+  optional Timestamp start_time = 1;
+
+  // The end_time could be used to set a endtime
+  //
+  // \note Should be definitely optional?
+  //
+  // \note Zero time point does not need to coincide with the UNIX epoch.
+  //
+  optional Timestamp end_time = 2;
+}
+
+
+
+//
+// \brief The TrajectoryAction. It provides an interface to describe the motion 
+// in space as a function of time.
+//
+// \note The StatePoint requires the timestamp to be set.
+//
+// \note The StatePoint requires all values to be set except the polygon. 
+//
+// \note Until now we assume the reference in the word frame.
+//
+message TrajectoryAction
+{
+    // The action_header 
+    //
+    //
+    optional ActionHeader action_header = 0;
+
+    // A list of TrajectoryPoints 
+    //
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    repeated StatePoint trajectory_point = 1;
+}
+
+
+//
+// \brief The PathAction. It provides an interface to describe a path.
+//
+// \note The StatePoint requires the position to be set.
+// \note Until now we assume the reference in the word frame.
+//
+message PathAction
+{
+    // The action_header 
+    //
+    //
+    optional ActionHeader action_header = 0;
+
+    // A list of PathPoints 
+    //
+    // \note OSI uses singular instead of plural for repeated field names.
+    //
+    repeated StatePoint trajectory_point = 1;
+}
+
+
