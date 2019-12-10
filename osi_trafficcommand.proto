@@ -4,7 +4,6 @@ option optimize_for = SPEED;
 
 import "osi_version.proto";
 import "osi_common.proto";
-import "osi_object.proto";
 
 package osi3;
 
@@ -90,14 +89,14 @@ message StatePoint
     //
     // \note Zero time point does not need to coincide with the UNIX epoch.
     //
-    optional Timestamp time_stamp = 0;
+    optional Timestamp time_stamp = 1;
 
 
     // BaseMoving to describe a state
     //
     // \note OSI uses singular instead of plural for repeated field names.
     //
-    optional BaseMoving state = 1;
+    optional BaseMoving state = 2;
 }
 
 //
@@ -110,7 +109,7 @@ message ActionHeader
   //
   // \note This should be mandatory
   //
-  optional Identifier action_id = 0;
+  optional Identifier action_id = 1;
 
   // The start_time could be used to set a starttime of execution
   //
@@ -118,7 +117,7 @@ message ActionHeader
   //
   // \note Zero time point does not need to coincide with the UNIX epoch.
   //
-  optional Timestamp start_time = 1;
+  optional Timestamp start_time = 2;
 
   // The end_time could be used to set a endtime
   //
@@ -126,7 +125,7 @@ message ActionHeader
   //
   // \note Zero time point does not need to coincide with the UNIX epoch.
   //
-  optional Timestamp end_time = 2;
+  optional Timestamp end_time = 3;
 }
 
 
@@ -146,13 +145,13 @@ message TrajectoryAction
     // The action_header 
     //
     //
-    optional ActionHeader action_header = 0;
+    optional ActionHeader action_header = 1;
 
     // A list of TrajectoryPoints 
     //
     // \note OSI uses singular instead of plural for repeated field names.
     //
-    repeated StatePoint trajectory_point = 1;
+    repeated StatePoint trajectory_point = 2;
 }
 
 
@@ -167,13 +166,13 @@ message PathAction
     // The action_header 
     //
     //
-    optional ActionHeader action_header = 0;
+    optional ActionHeader action_header = 1;
 
     // A list of PathPoints 
     //
     // \note OSI uses singular instead of plural for repeated field names.
     //
-    repeated StatePoint trajectory_point = 1;
+    repeated StatePoint trajectory_point = 2;
 }
 
 
