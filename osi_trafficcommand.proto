@@ -178,22 +178,3 @@ message PathAction
     repeated StatePoint path_point = 2;
 }
 
-
-
-//
-// \brief Acquire Global Position Action
-//
-// \note This is not discussed in SL425 UAP 2.1.5 and is not part of this
-// proposal. This is temporary for the MS1.
-//
-// \note Remark: The Position6d is a redefinition of a Position + Orientation.
-// Neither the redefinition nore the naming "position" for a pose makes sense.
-//
-// \note Remark: Maybe better to avoid an other redefinition and use a
-// TrajectoryAction with only trajectorypoint.
-//
-message AcquireGlobalPositionAction {
-    // Position and orientation relative to the global coordinate system.
-    //
-    optional Position6d position = 1;
-}
