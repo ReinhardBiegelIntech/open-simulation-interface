@@ -80,8 +80,24 @@ set(OSI_PROTO_FILES
     osi_sensorview.proto
     osi_worldinterface.proto
 )
+include_directories(./)
+protobuf_generate_cpp(PROTO_SRCS PROTO_HEADERS ${OSI_PROTO_FILES} EXPORT_MACRO "OSI_EXPORT")
+if(MSVC)
+add_compile_options( /FIOSIExport.h)
+add_definitions(-DPROTOBUF_USE_DLLS)
+else(MSVC)
+add_compile_options( -include OSIExport.h)
+endif(MSVC)
 
-protobuf_generate_cpp(PROTO_SRCS PROTO_HEADERS ${OSI_PROTO_FILES})
+
+add_library(${PROJECT_NAME} SHARED ${PROTO_SRCS} ${PROTO_HEADERS})
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        ${PROTOBUF_INCLUDE_DIR}
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>
+)
+
 
 add_library(${PROJECT_NAME}_static STATIC ${PROTO_SRCS} ${PROTO_HEADERS})
 target_include_directories(${PROJECT_NAME}_static
@@ -90,6 +106,8 @@ target_include_directories(${PROJECT_NAME}_static
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
         $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>
 )
+
+target_compile_definitions(${PROJECT_NAME}_static PUBLIC -DNODLL)
 target_link_libraries(${PROJECT_NAME}_static PUBLIC ${PROTOBUF_LIBRARY})
 install(TARGETS ${PROJECT_NAME}_static
         EXPORT ${PROJECT_NAME}_targets
@@ -104,6 +122,7 @@ target_include_directories(${PROJECT_NAME}_obj
         $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>
 )
 set_property(TARGET ${PROJECT_NAME}_obj PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_compile_definitions(${PROJECT_NAME}_obj PUBLIC -DNODLL)
 
 
 add_library(${PROJECT_NAME}_pic STATIC $<TARGET_OBJECTS:${PROJECT_NAME}_obj>)
@@ -122,13 +141,6 @@ install(TARGETS ${PROJECT_NAME}_pic
         EXPORT ${PROJECT_NAME}_targets
         ARCHIVE DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib)
 
-add_library(${PROJECT_NAME} SHARED $<TARGET_OBJECTS:${PROJECT_NAME}_obj>)
-target_include_directories(${PROJECT_NAME}
-    PUBLIC
-        ${PROTOBUF_INCLUDE_DIR}
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-        $<INSTALL_INTERFACE:${INSTALL_INCLUDE_DIR}>
-)
 
 set_property(
     TARGET ${PROJECT_NAME}
