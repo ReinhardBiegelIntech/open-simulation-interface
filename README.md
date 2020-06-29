@@ -12,7 +12,7 @@ In this context, OSI defines generic interfaces to ensure modularity, integrabil
 
 For more information on OSI see the [official documentation](https://opensimulationinterface.github.io/osi-documentation/) or the [official reference documentation](https://opensimulationinterface.github.io/open-simulation-interface/) for defined protobuf messages. 
 
-[[1]](https://www.hot.ei.tum.de/forschung/automotive-veroeffentlichungen/) *A generic interface for the environment perception of automated driving functions in virtual scenarios.(Dated 03.02.2017) T. Hanke, N. Hirsenkorn, C. van-Driesten, P. Garcia-Ramos, M. Schiementz, S. Schneider, E. Biebl*
+[1] Hanke, T., Hirsenkorn, N., van-Driesten, C., Garcia-Ramos, P., Schiementz, M., Schneider, S. & Biebl, E. (2017, February 03). *A generic interface for the environment perception of automated driving functions in virtual scenarios.* Retrieved January 25, 2020, from https://www.hot.ei.tum.de/forschung/automotive-veroeffentlichungen/ 
 
 ## Usage
 ##### Example of writing and reading an OSI message in `Python`
@@ -85,7 +85,7 @@ $ sudo apt-get install cmake
 ```
 Install `pip3` and missing python packages:
 ```bash
-$ sudo apt-get install python3-pip python-setuptools
+$ sudo apt-get install python3-pip python3-setuptools
 ```
 Install `protobuf` 3.0.0:
 ```bash
@@ -109,10 +109,10 @@ Local:
 ```bash
 $ git clone https://github.com/OpenSimulationInterface/open-simulation-interface.git
 $ cd open-simulation-interface
-$ sudo pip3 install virtualenv 
+$ sudo pip3 install virtualenv
 $ virtualenv -p python3 venv
 $ source venv/bin/activate
-$ pip install .
+$ python3 -m pip install .
 ```
 
 Global:
